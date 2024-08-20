@@ -1,8 +1,10 @@
 import React from 'react'
 
+
 const AdminData = () => {
     return (
         <>
+       
             <div class="container-fluid">
 
                 <h1 class="h3 mb-2 text-gray-800">Tables</h1>
