@@ -1,18 +1,45 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Header from './header';
 import Sidebar from './sidebar';
-import AdminData from './AdminData';
 
-const Dashboard = ({ title, mainContent }) => {
+const Dashboard = () => {
     const [style, setStyle] = useState('navbar-nav bg-gradient-primary sidebar sidebar-dark accordion');
     const navigate = useNavigate();
     const [userData, setUserData] = useState(null);
+    const location = useLocation();
+    const [url, setUrl] = useState('');
+
+    const pathname = location.pathname;
+
+    useEffect(() => {
+        switch (true) {
+            case pathname === '/homepage':
+                setUrl('Dashboard');
+                break;
+            case pathname === '/adminData':
+                setUrl('Admin Data');
+                break;
+            case pathname === '/addAdmin':
+                setUrl('Add Data');
+                break;
+            case pathname.startsWith('/updateAdmin'):
+                setUrl('Update Admin');
+                break;
+            default:
+                setUrl('Admin Side');
+                break;
+        }
+    }, [pathname]);
+
+    useEffect(() => {
+        document.title = url;
+    }, [url]);
 
     useEffect(() => {
         const data = localStorage.getItem('user-info');
         if (!data) {
-            navigate('/login'); // Redirect to login if not logged in
+            navigate('/login');
         } else {
             setUserData(JSON.parse(data));
         }
@@ -22,9 +49,8 @@ const Dashboard = ({ title, mainContent }) => {
 
     const logoutBtn = () => {
         setUserData(null);
-        localStorage.removeItem('user-info');
         setTimeout(() => {
-            navigate('/');
+            navigate('/logout');
         }, 100);
     };
 
@@ -36,24 +62,18 @@ const Dashboard = ({ title, mainContent }) => {
         );
     };
 
+    
+
     return (
         <>
-            <body id="page-top">
+            <div id="page-top">
                 <div id="wrapper">
                     <Sidebar style={style} changeStyle={changeStyle} navigate={navigate} />
                     <div id="content-wrapper" className="d-flex flex-column">
                         <div id="content">
                             <Header fullName={fullName} style={style} />
                             <div className="container-fluid">
-                                <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                                    <h1 className="h3 mb-0 text-gray-800">{title}</h1>
-                                    <a href="#" className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                                        <i className="fas fa-download fa-sm text-white-50"></i> Generate Report
-                                    </a>
-                                </div>
-
-                                {/* Main content area */}
-                                <AdminData/>
+                                <Outlet /> {/* This is where child routes will be rendered */}
                             </div>
                         </div>
 
@@ -83,12 +103,13 @@ const Dashboard = ({ title, mainContent }) => {
                             <div className="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                             <div className="modal-footer">
                                 <button className="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                <a className="btn btn-primary" onClick={logoutBtn}>Logout</a>
+                                {/* Changed to a button element */}
+                                <button className="btn btn-primary" onClick={logoutBtn}>Logout</button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </body>
+            </div>
         </>
     );
 };

@@ -1,22 +1,33 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Dashbord from './Admin/Dashbord';
+import Dashboard from './Admin/Dashbord'; // Updated name to match your import
 import Login from './Admin/login';
 import AdminData from './Admin/AdminData';
+import AddAdmin from './Admin/addAdmin';
+import Homepage from './Admin/homepage';
+import Logout from './Admin/logout';
+import UpdateAdmin from './Admin/updateAdmin';
 
-
-  function App() {
+function App() {
     return (
-      <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<Dashbord />} />
-        <Route path="/adminData" element={<AdminData />} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </Router>
-    
+        <Router>
+            <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/" element={<Dashboard />}>
+                    {/* Default route for dashboard redirects to homepage */}
+                    <Route index element={<Navigate to="/homepage" />} />
+                    {/* Nested routes under Dashboard */}
+                    <Route path="homepage" element={<Homepage />} />
+                    <Route path="addAdmin" element={<AddAdmin />} />
+                    <Route path="logout" element={<Logout />} />
+                    <Route path="updateAdmin/:id" element={<UpdateAdmin />} />
+                    <Route path="adminData" element={<AdminData />} />
+                </Route>
+                {/* Catch-all route to redirect any undefined routes to the main page */}
+                <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+        </Router>
     );
-  }
-  
-  export default App;
+}
+
+export default App;
