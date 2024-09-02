@@ -7,6 +7,8 @@ import AddAdmin from './Admin/addAdmin';
 import Homepage from './Admin/homepage';
 import Logout from './Admin/logout';
 import UpdateAdmin from './Admin/updateAdmin';
+import HotelData from './Admin/hotelData';
+import AddRooms from './Admin/addRooms';
 
 function App() {
     return (
@@ -19,6 +21,8 @@ function App() {
                     {/* Nested routes under Dashboard */}
                     <Route path="homepage" element={<Homepage />} />
                     <Route path="addAdmin" element={<AddAdmin />} />
+                    <Route path="addRooms" element={<AddRooms />} />
+                    <Route path="hotelData" element={<HotelData />} />
                     <Route path="logout" element={<Logout />} />
                     <Route path="updateAdmin/:id" element={<UpdateAdmin />} />
                     <Route path="adminData" element={<AdminData />} />
@@ -27,6 +31,7 @@ function App() {
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </Router>
+        
     );
 }
 

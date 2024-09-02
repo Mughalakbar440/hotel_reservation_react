@@ -7,7 +7,9 @@ const Sidebar = ({ style, changeStyle }) => {
     const handleAdminDataClick = () => {
         navigate('/adminData');
     };
-
+    const handleHotelClick = () => {
+        navigate('/hotelData');
+    }
     // const handleAddAdminClick = () => {
     //     navigate('/addAdmin');
     // };
@@ -66,6 +68,12 @@ const Sidebar = ({ style, changeStyle }) => {
                 <a className="nav-link" onClick={handleAdminDataClick}>
                     <i className="fas fa-fw fa-table"></i>
                     <span>Admin Data</span>
+                </a>
+            </li>
+            <li className="nav-item">
+                <a className="nav-link" onClick={handleHotelClick}>
+                    <i className="fas fa-fw fa-table"></i>
+                    <span>Hotel Data</span>
                 </a>
             </li>
             
